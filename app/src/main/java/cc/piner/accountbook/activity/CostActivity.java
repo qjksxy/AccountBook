@@ -31,17 +31,13 @@ public class CostActivity extends AppCompatActivity {
     EditText costTitle, costMoney;
     TextView costAddBtn, costView;
     MyDBHelper myDBHelper;
-
     Handler handler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cost);
-
         myDBHelper = new MyDBHelper(this);
         handler = new MyHandler();
-
         initUI();
         new CostCalculatorThread(handler, myDBHelper).start();
     }
@@ -51,12 +47,10 @@ public class CostActivity extends AppCompatActivity {
         costTitle = findViewById(R.id.costTitle);
         costMoney = findViewById(R.id.costMoney);
         costView = findViewById(R.id.costView);
-
         costAddBtn.setClickable(true);
         costAddBtn.setOnClickListener(v -> {
             String title = String.valueOf(costTitle.getText());
             String money = String.valueOf(costMoney.getText());
-
             if (money == null || money.equals("")) {
                 Toast.makeText(this, "金额不能为空", Toast.LENGTH_SHORT).show();
             } else {
@@ -89,16 +83,17 @@ public class CostActivity extends AppCompatActivity {
         dataCall.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
-
                 Data body = response.body();
                 int statusCode = body.getStatusCode();
                 String description = body.getDescription();
-                Toast.makeText(CostActivity.this, statusCode + ":" + description, Toast.LENGTH_SHORT).show();
+                if (statusCode != 200) {
+                    Toast.makeText(CostActivity.this, "Error:" + description, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
-                Toast.makeText(CostActivity.this, "send failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CostActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
