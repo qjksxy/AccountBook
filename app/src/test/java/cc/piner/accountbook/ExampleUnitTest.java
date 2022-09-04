@@ -14,4 +14,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void test() {
+        long l = 100000000;
+        int i = (int) l;
+        System.out.println(i);
+    }
 }

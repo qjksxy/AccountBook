@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import cc.piner.accountbook.activity.WebActivity;
+import cc.piner.accountbook.activity.CostActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, WebActivity.class);
+        Intent intent = new Intent(this, CostActivity.class);
         this.startActivity(intent);
     }
 }

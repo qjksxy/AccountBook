@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.CostActivity">
+    <!-- 总体设计： 页面有一个导航栏，一个数据控制面板（卡片），一个操作卡片。然后列表形式显示消费记录 -->
+    <!-- 顶部导航栏有搜索框，一个统计功能按钮，一个设置按钮 -->
 
+    <!-- 统计面板，应该显示本日与本月消费情况 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,10 +18,11 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="8dp" >
         <TextView
+            android:id="@+id/costView"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text="统计面板"/>
     </androidx.cardview.widget.CardView>
 
@@ -37,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="添加消费记录"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,13 +50,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:text="描述"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
                 <EditText
+                    android:id="@+id/costTitle"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -63,13 +68,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:text="消费金额"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
                 <EditText
+                    android:id="@+id/costMoney"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -83,11 +89,12 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
                 <TextView
+                    android:id="@+id/costAddBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textColor="#5e6aa4"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:text="添加"/>
             </LinearLayout>
         </LinearLayout>
