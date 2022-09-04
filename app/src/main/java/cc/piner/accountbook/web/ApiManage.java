@@ -1,5 +1,6 @@
 package cc.piner.accountbook.web;
 
+import cc.piner.accountbook.web.pojo.Cost;
 import cc.piner.accountbook.web.pojo.Data;
 import cc.piner.accountbook.web.pojo.User;
 import retrofit2.Call;
@@ -13,4 +14,7 @@ public interface ApiManage {
 
     @POST("user.json")
     Call<Data> uploadUser(@Body User user);
+
+    @POST("cost/add")
+    Call<Data> uploadCost(@Body Cost cost);
 }
