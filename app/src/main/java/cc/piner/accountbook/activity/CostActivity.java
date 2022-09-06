@@ -56,23 +56,30 @@ public class CostActivity extends AppCompatActivity {
             if (money == null || money.equals("")) {
                 Toast.makeText(this, "金额不能为空", Toast.LENGTH_SHORT).show();
             } else {
-                double dMoney = Double.parseDouble(money);
+                double dMoney = 0;
+                try {
+                    dMoney = Double.parseDouble(money);
+                } catch (Exception e) {
+                    Toast.makeText(this, "金额填写错误，请检查", Toast.LENGTH_SHORT).show();
+                }
                 long lMoney = (long) (dMoney * 100);
-                Calendar cal = Calendar.getInstance();
-                long time = cal.getTimeInMillis();
-                MyDBDao dao = new MyDBDao(myDBHelper);
-                long costId = dao.insertCost(lMoney, time, title);
-                costMoney.setText("");
-                costTitle.setText("");
-                new CostCalculatorThread(handler, myDBHelper).start();
-                new CostCalculatorMonthThread(handler, myDBHelper).start();
+                if (lMoney != 0) {
+                    Calendar cal = Calendar.getInstance();
+                    long time = cal.getTimeInMillis();
+                    MyDBDao dao = new MyDBDao(myDBHelper);
+                    long costId = dao.insertCost(lMoney, time, title);
+                    costMoney.setText("");
+                    costTitle.setText("");
+                    new CostCalculatorThread(handler, myDBHelper).start();
+                    new CostCalculatorMonthThread(handler, myDBHelper).start();
 
-                Cost cost = new Cost();
-                cost.setTime(time);
-                cost.setTitle(title);
-                cost.setConsumption((int) lMoney);
-                cost.setUserId(1);
-                sendWeb(cost);
+                    Cost cost = new Cost();
+                    cost.setTime(time);
+                    cost.setTitle(title);
+                    cost.setConsumption((int) lMoney);
+                    cost.setUserId(1);
+                    sendWeb(cost);
+                }
             }
         });
 
