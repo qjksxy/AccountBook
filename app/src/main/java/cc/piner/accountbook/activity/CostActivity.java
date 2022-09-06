@@ -15,6 +15,7 @@ import java.util.Calendar;
 import cc.piner.accountbook.R;
 import cc.piner.accountbook.sqlite.MyDBDao;
 import cc.piner.accountbook.sqlite.MyDBHelper;
+import cc.piner.accountbook.thread.CostCalculatorMonthThread;
 import cc.piner.accountbook.thread.CostCalculatorThread;
 import cc.piner.accountbook.utils.HandlerUtil;
 import cc.piner.accountbook.web.ApiManage;
@@ -29,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CostActivity extends AppCompatActivity {
 
     EditText costTitle, costMoney;
-    TextView costAddBtn, costView;
+    TextView costAddBtn, costView, costListView;
     MyDBHelper myDBHelper;
     Handler handler;
     @Override
@@ -39,7 +40,7 @@ public class CostActivity extends AppCompatActivity {
         myDBHelper = new MyDBHelper(this);
         handler = new MyHandler();
         initUI();
-        new CostCalculatorThread(handler, myDBHelper).start();
+
     }
 
     private void initUI() {
@@ -47,6 +48,7 @@ public class CostActivity extends AppCompatActivity {
         costTitle = findViewById(R.id.costTitle);
         costMoney = findViewById(R.id.costMoney);
         costView = findViewById(R.id.costView);
+        costListView = findViewById(R.id.costListView);
         costAddBtn.setClickable(true);
         costAddBtn.setOnClickListener(v -> {
             String title = String.valueOf(costTitle.getText());
@@ -63,6 +65,8 @@ public class CostActivity extends AppCompatActivity {
                 costMoney.setText("");
                 costTitle.setText("");
                 new CostCalculatorThread(handler, myDBHelper).start();
+                new CostCalculatorMonthThread(handler, myDBHelper).start();
+
                 Cost cost = new Cost();
                 cost.setTime(time);
                 cost.setTitle(title);
@@ -71,6 +75,9 @@ public class CostActivity extends AppCompatActivity {
                 sendWeb(cost);
             }
         });
+
+        new CostCalculatorThread(handler, myDBHelper).start();
+        new CostCalculatorMonthThread(handler, myDBHelper).start();
     }
 
     private void sendWeb(Cost cost) {
@@ -104,6 +111,12 @@ public class CostActivity extends AppCompatActivity {
             switch (msg.what) {
                 case HandlerUtil.MAIN_TEXT_VIEW:
                     costView.setText((String) msg.obj);
+                    break;
+                case HandlerUtil.MONTH_COST_LIST:
+                    String str = (String) msg.obj;
+                    if (str != null && !str.equals("")) {
+                        costListView.setText(str);
+                    }
                     break;
                 default:
                     break;
