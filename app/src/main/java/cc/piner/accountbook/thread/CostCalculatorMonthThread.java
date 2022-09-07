@@ -37,17 +37,19 @@ public class CostCalculatorMonthThread extends Thread {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         MyDBDao myDBDao = new MyDBDao(dbHelper);
         StringBuilder str = new StringBuilder();
-        List<Cost> costs2 = myDBDao.queryCost(
+        List<Cost> costs = myDBDao.queryCost(
                 MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, null);
         long monthSum = 0;
-        for (Cost cost : costs2) {
-
+        for (int i = 0; i < costs.size(); i++) {
+            if (i != 0) {
+                str.append('\n');
+            }
+            Cost cost = costs.get(i);
             monthSum += cost.getCost();
             String date = format.format(cost.getTime());
             double dCost = cost.getCost() / 100.0;
-            str.append(String.format("%s%6.2f：%s", date, dCost, cost.getDesc())).append("\n");
+            str.append(String.format("%s%6.2f：%s", date, dCost, cost.getDesc()));
         }
-        Log.w(TAG, "run: " + monthSum);
         HandlerUtil.sendMsg(handler, str.toString(), HandlerUtil.MONTH_COST_LIST, (int) monthSum, 0);
     }
 }
