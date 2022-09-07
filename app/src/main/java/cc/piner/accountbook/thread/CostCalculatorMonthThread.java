@@ -38,7 +38,7 @@ public class CostCalculatorMonthThread extends Thread {
         MyDBDao myDBDao = new MyDBDao(dbHelper);
         StringBuilder str = new StringBuilder();
         List<Cost> costs = myDBDao.queryCost(
-                MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, null);
+                MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, MyDBHelper.COST_TIME_COLUMN + " DESC");
         long monthSum = 0;
         for (int i = 0; i < costs.size(); i++) {
             if (i != 0) {
@@ -48,7 +48,7 @@ public class CostCalculatorMonthThread extends Thread {
             monthSum += cost.getCost();
             String date = format.format(cost.getTime());
             double dCost = cost.getCost() / 100.0;
-            str.append(String.format("%s%6.2f：%s", date, dCost, cost.getDesc()));
+            str.append(String.format("%s %6.2f：%s", date, dCost, cost.getDesc()));
         }
         HandlerUtil.sendMsg(handler, str.toString(), HandlerUtil.MONTH_COST_LIST, (int) monthSum, 0);
     }
