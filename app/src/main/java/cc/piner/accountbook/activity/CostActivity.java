@@ -3,6 +3,7 @@ package cc.piner.accountbook.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import cc.piner.accountbook.R;
 import cc.piner.accountbook.sqlite.MyDBDao;
 import cc.piner.accountbook.sqlite.MyDBHelper;
 import cc.piner.accountbook.thread.CostCalculatorMonthThread;
 import cc.piner.accountbook.thread.CostCalculatorThread;
+import cc.piner.accountbook.thread.PreferenceThread;
 import cc.piner.accountbook.utils.HandlerUtil;
 import cc.piner.accountbook.web.ApiManage;
 import cc.piner.accountbook.web.pojo.Cost;
@@ -31,8 +34,10 @@ public class CostActivity extends AppCompatActivity {
 
     EditText costTitle, costMoney;
     TextView costAddBtn, costView, costListView;
+    TextView costHint1, costHint2, costHint3;
     MyDBHelper myDBHelper;
     Handler handler;
+    int userid = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +45,7 @@ public class CostActivity extends AppCompatActivity {
         myDBHelper = new MyDBHelper(this);
         handler = new MyHandler();
         initUI();
-
+        new PreferenceThread(this, handler).start();
     }
 
     private void initUI() {
@@ -49,11 +54,17 @@ public class CostActivity extends AppCompatActivity {
         costMoney = findViewById(R.id.costMoney);
         costView = findViewById(R.id.costView);
         costListView = findViewById(R.id.costListView);
+        costHint1 = findViewById(R.id.costHint1);
+        costHint2 = findViewById(R.id.costHint2);
+        costHint3 = findViewById(R.id.costHint3);
+        costHint1.setOnClickListener(new MyListener());
+        costHint2.setOnClickListener(new MyListener());
+        costHint3.setOnClickListener(new MyListener());
         costAddBtn.setClickable(true);
         costAddBtn.setOnClickListener(v -> {
             String title = String.valueOf(costTitle.getText());
             String money = String.valueOf(costMoney.getText());
-            if (money == null || money.equals("")) {
+            if (money.equals("")) {
                 Toast.makeText(this, "金额不能为空", Toast.LENGTH_SHORT).show();
             } else {
                 double dMoney = 0;
@@ -77,7 +88,7 @@ public class CostActivity extends AppCompatActivity {
                     cost.setTime(time);
                     cost.setTitle(title);
                     cost.setConsumption((int) lMoney);
-                    cost.setUserId(1);
+                    cost.setUserId(userid);
                     sendWeb(cost);
                 }
             }
@@ -100,14 +111,10 @@ public class CostActivity extends AppCompatActivity {
                 Data body = response.body();
                 int statusCode = body.getStatusCode();
                 String description = body.getDescription();
-                if (statusCode != 200) {
-                    Toast.makeText(CostActivity.this, "Error:" + description, Toast.LENGTH_SHORT).show();
-                }
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
-                Toast.makeText(CostActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -125,9 +132,33 @@ public class CostActivity extends AppCompatActivity {
                         costListView.setText(str);
                     }
                     break;
+                case HandlerUtil.COST_HINT_TEXT:
+                    List<String> lists = (List<String>) msg.obj;
+                    if (!lists.isEmpty()) {
+                        costHint1.setText(lists.get(0));
+                    }
+                    if (lists.size() > 1) {
+                        costHint2.setText(lists.get(1));
+                    }
+                    if (lists.size() > 2) {
+                        costHint3.setText(lists.get(2));
+                    }
+                    break;
+                case HandlerUtil.COST_USER_ID:
+                    userid = (int) msg.obj;
+                    break;
                 default:
                     break;
             }
+        }
+    }
+
+    class MyListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            TextView tv = (TextView) v;
+            costTitle.setText(tv.getText());
+            costMoney.requestFocusFromTouch();
         }
     }
 }

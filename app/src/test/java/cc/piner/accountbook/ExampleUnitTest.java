@@ -2,7 +2,11 @@ package cc.piner.accountbook;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -30,5 +34,43 @@ public class ExampleUnitTest {
             str.append(String.format("%6.2f", v)).append("|\n");
         }
         System.out.println(str);
+    }
+
+    @Test
+    public void mapTest() {
+        List<String> strs = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        strs.add("早餐");strs.add("晚餐");strs.add("午饭");
+        strs.add("水果");strs.add("早餐");strs.add("早餐");
+        strs.add("早餐");strs.add("午饭");strs.add("晚餐");
+        strs.add("午餐");strs.add("午饭");strs.add("早餐");
+        strs.add("水果");strs.add("饭卡");strs.add("饭卡");
+
+        // 早餐：5
+        // 午餐 1 午饭3
+        // wancan 2
+        // 饭卡 2 水果2
+
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String str : strs) {
+            map.put(str, map.containsKey(str) ? map.get(str)+1 : 1);
+        }
+        for (int i = 0; i < 3; i++) {
+            int max = 0;
+            String maxStr = null;
+            for (String s : map.keySet()) {
+                if (map.get(s) > max) {
+                    maxStr = s;
+                    max = map.get(s);
+                }
+            }
+            if (maxStr != null) {
+                map.remove(maxStr);
+            }
+            result.add(maxStr);
+        }
+
+        System.out.println(result);
+
     }
 }

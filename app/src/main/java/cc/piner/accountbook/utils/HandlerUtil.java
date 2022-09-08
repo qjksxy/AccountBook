@@ -13,6 +13,8 @@ import android.os.Message;
 public class HandlerUtil {
     public static final int MAIN_TEXT_VIEW = 1001;
     public static final int MONTH_COST_LIST = 1002;
+    public static final int COST_HINT_TEXT = 1003;
+    public static final int COST_USER_ID = 1004;
     /**
      * 自动生成Message并调用handler.sendMessage(message)方法
      *

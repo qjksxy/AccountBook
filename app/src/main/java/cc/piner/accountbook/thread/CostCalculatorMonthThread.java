@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import cc.piner.accountbook.sqlite.MyDBDao;
@@ -36,20 +38,41 @@ public class CostCalculatorMonthThread extends Thread {
         long month = DateUtil.getMonthStartMS();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         MyDBDao myDBDao = new MyDBDao(dbHelper);
-        StringBuilder str = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         List<Cost> costs = myDBDao.queryCost(
                 MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, MyDBHelper.COST_TIME_COLUMN + " DESC");
         long monthSum = 0;
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        List<String> result = new ArrayList<>();
         for (int i = 0; i < costs.size(); i++) {
+            String str = costs.get(i).getDesc();
+            map.put(str, map.containsKey(str) ? map.get(str)+1 : 1);
+
             if (i != 0) {
-                str.append('\n');
+                stringBuilder.append('\n');
             }
             Cost cost = costs.get(i);
             monthSum += cost.getCost();
             String date = format.format(cost.getTime());
             double dCost = cost.getCost() / 100.0;
-            str.append(String.format("%s %6.2f：%s", date, dCost, cost.getDesc()));
+            stringBuilder.append(String.format("%s %6.2f：%s", date, dCost, cost.getDesc()));
         }
-        HandlerUtil.sendMsg(handler, str.toString(), HandlerUtil.MONTH_COST_LIST, (int) monthSum, 0);
+        HandlerUtil.sendMsg(handler, stringBuilder.toString(), HandlerUtil.MONTH_COST_LIST, (int) monthSum, 0);
+
+        for (int i = 0; i < 3; i++) {
+            int max = 0;
+            String maxStr = null;
+            for (String s : map.keySet()) {
+                if (map.get(s) > max) {
+                    maxStr = s;
+                    max = map.get(s);
+                }
+            }
+            if (maxStr != null) {
+                map.remove(maxStr);
+            }
+            result.add(maxStr);
+        }
+        HandlerUtil.sendMsg(handler, result, HandlerUtil.COST_HINT_TEXT, 0, 0);
     }
 }
