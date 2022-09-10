@@ -88,7 +88,7 @@ public class CostActivity extends AppCompatActivity {
                     cost.setTime(time);
                     cost.setTitle(title);
                     cost.setConsumption((int) lMoney);
-                    cost.setUserId(userid);
+                    cost.setUserid(userid);
                     sendWeb(cost);
                 }
             }

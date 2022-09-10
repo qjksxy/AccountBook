@@ -1,7 +1,5 @@
 package cc.piner.accountbook.web.pojo;
 
-import java.util.List;
-
 /**
  * <p>createDate 22-9-3</p>
  * <p>fileName   Cost</p>
@@ -14,26 +12,24 @@ public class Cost {
     int 金额，以分为单位
     String 标题
     int 分类
-    int-s 标签
     long 时间戳
+    int 用户id
      */
     int consumption;
     String title;
     int category;
-    List<Integer> tags;
     long time;
-    int userId;
+    int userid;
 
     public Cost() {
     }
 
-    public Cost(int consumption, String title, int category, List<Integer> tags, long time, int userId) {
+    public Cost(int consumption, String title, int category, long time, int userid) {
         this.consumption = consumption;
         this.title = title;
         this.category = category;
-        this.tags = tags;
         this.time = time;
-        this.userId = userId;
+        this.userid = userid;
     }
 
     public int getConsumption() {
@@ -60,14 +56,6 @@ public class Cost {
         this.category = category;
     }
 
-    public List<Integer> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Integer> tags) {
-        this.tags = tags;
-    }
-
     public long getTime() {
         return time;
     }
@@ -76,12 +64,12 @@ public class Cost {
         this.time = time;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     @Override
@@ -90,9 +78,8 @@ public class Cost {
                 "consumption=" + consumption +
                 ", title='" + title + '\'' +
                 ", category=" + category +
-                ", tags=" + tags +
                 ", time=" + time +
-                ", userId=" + userId +
+                ", userId=" + userid +
                 '}';
     }
 }

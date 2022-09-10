@@ -10,8 +10,8 @@ android {
         applicationId "cc.piner.accountbook"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,6 +29,9 @@ android {
 }
 
 dependencies {
+    // 标题栏框架
+    implementation 'com.github.getActivity:TitleBar:9.5'
+
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.0.2'
     // Retrofit库

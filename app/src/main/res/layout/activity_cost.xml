@@ -9,6 +9,12 @@
     <!-- 总体设计： 页面有一个导航栏，一个数据控制面板（卡片），一个操作卡片。然后列表形式显示消费记录 -->
     <!-- 顶部导航栏有搜索框，一个统计功能按钮，一个设置按钮 -->
 
+    <!-- 搜索框与导航栏 -->
+    <com.hjq.bar.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="hello, world!"/>
+
     <!-- 统计面板，应该显示本日与本月消费情况 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -26,6 +32,7 @@
             android:text="统计面板"/>
     </androidx.cardview.widget.CardView>
 
+    <!-- 操作卡片 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,6 +142,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- 历史记录 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
