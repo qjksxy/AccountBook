@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,8 +38,11 @@ public class CostActivity extends AppCompatActivity {
     EditText costTitle, costMoney;
     TextView costAddBtn, costView, costListView;
     TextView costHint1, costHint2, costHint3;
+    TitleBar titleBar;
     MyDBHelper myDBHelper;
     Handler handler;
+    final String[] hint = {"不准点！", "说了不准点！", "再点就坏了！", "坏了，赔钱！", "呜呜呜呜呜，不可以(⋟﹏⋞)"};
+    int hintIndex = 0;
     int userid = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,27 @@ public class CostActivity extends AppCompatActivity {
                 }
             }
         });
+        titleBar = findViewById(R.id.titleBar);
+        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(TitleBar titleBar) {
+                Toast.makeText(CostActivity.this, "大懒虫还没有实现这个功能，请期待后续版本", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onTitleClick(TitleBar titleBar) {
+                String str = hint[hintIndex++];
+                if (hintIndex == hint.length) {
+                    hintIndex--;
+                }
+                Toast.makeText(CostActivity.this, str, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRightClick(TitleBar titleBar) {
+                Toast.makeText(CostActivity.this, "大懒虫还没有实现这个功能，请期待后续版本", Toast.LENGTH_SHORT).show();
+            }
+        });
         new CostCalculatorThread(handler, myDBHelper).start();
         new CostCalculatorMonthThread(handler, myDBHelper).start();
     }

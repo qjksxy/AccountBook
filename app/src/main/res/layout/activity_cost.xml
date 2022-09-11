@@ -11,10 +11,21 @@
 
     <!-- 搜索框与导航栏 -->
     <com.hjq.bar.TitleBar
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="hello, world!"/>
-
+        app:title="AccountBook"
+        app:leftIcon="@drawable/setting_icon"
+        app:leftIconHeight="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:rightIcon="@drawable/statistics"
+        app:rightIconHeight="24dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dividerColor"/>
     <!-- 统计面板，应该显示本日与本月消费情况 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
