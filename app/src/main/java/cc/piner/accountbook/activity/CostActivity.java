@@ -22,7 +22,6 @@ import java.util.List;
 import cc.piner.accountbook.R;
 import cc.piner.accountbook.sqlite.MyDBDao;
 import cc.piner.accountbook.sqlite.MyDBHelper;
-import cc.piner.accountbook.thread.CostCalculatorMonthThread;
 import cc.piner.accountbook.thread.CostThread;
 import cc.piner.accountbook.thread.PreferenceThread;
 import cc.piner.accountbook.utils.HandlerUtil;
@@ -95,7 +94,7 @@ public class CostActivity extends AppCompatActivity {
                     costMoney.setText("");
                     costTitle.setText("");
                     new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
-                    new CostCalculatorMonthThread(handler, myDBHelper).start();
+                    new CostThread(handler, myDBHelper, CostThread.GET_HISTORICAL_RECORD).start();
 
                     Cost cost = new Cost();
                     cost.setTime(time);
@@ -128,7 +127,7 @@ public class CostActivity extends AppCompatActivity {
             }
         });
         new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
-        new CostCalculatorMonthThread(handler, myDBHelper).start();
+        new CostThread(handler, myDBHelper, CostThread.GET_HISTORICAL_RECORD).start();
     }
 
     private void sendWeb(Cost cost) {
