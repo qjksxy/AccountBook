@@ -23,7 +23,7 @@ import cc.piner.accountbook.R;
 import cc.piner.accountbook.sqlite.MyDBDao;
 import cc.piner.accountbook.sqlite.MyDBHelper;
 import cc.piner.accountbook.thread.CostCalculatorMonthThread;
-import cc.piner.accountbook.thread.CostCalculatorThread;
+import cc.piner.accountbook.thread.CostThread;
 import cc.piner.accountbook.thread.PreferenceThread;
 import cc.piner.accountbook.utils.HandlerUtil;
 import cc.piner.accountbook.web.ApiManage;
@@ -94,7 +94,7 @@ public class CostActivity extends AppCompatActivity {
                     long costId = dao.insertCost(lMoney, time, title);
                     costMoney.setText("");
                     costTitle.setText("");
-                    new CostCalculatorThread(handler, myDBHelper).start();
+                    new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
                     new CostCalculatorMonthThread(handler, myDBHelper).start();
 
                     Cost cost = new Cost();
@@ -127,7 +127,7 @@ public class CostActivity extends AppCompatActivity {
                 Toast.makeText(CostActivity.this, "大懒虫还没有实现这个功能，请期待后续版本", Toast.LENGTH_SHORT).show();
             }
         });
-        new CostCalculatorThread(handler, myDBHelper).start();
+        new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
         new CostCalculatorMonthThread(handler, myDBHelper).start();
     }
 

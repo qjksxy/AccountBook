@@ -3,8 +3,11 @@ package cc.piner.accountbook;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import cc.piner.accountbook.utils.DateUtil;
 
 import static org.junit.Assert.assertEquals;
 
@@ -72,5 +75,14 @@ public class ExampleUnitTest {
 
         System.out.println(result);
 
+    }
+
+    @Test
+    public void dateTest() {
+        System.out.println(DateUtil.getMonthDays());
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal.get(Calendar.MONTH));
+        System.out.println(cal.getTime());
+        System.out.println(cal.getTimeInMillis());
     }
 }

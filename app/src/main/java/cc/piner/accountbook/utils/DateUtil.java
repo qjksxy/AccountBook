@@ -36,4 +36,19 @@ public class DateUtil {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis();
     }
+
+    // 获取到的月份为0-11
+    public static int getMonthDays() {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return days[month] - cal.get(Calendar.DAY_OF_MONTH) + 1;
+    }
+
+    public static int getMonthRemainDays() {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return days[month];
+    }
 }
