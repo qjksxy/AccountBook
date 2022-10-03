@@ -3,7 +3,6 @@ package cc.piner.accountbook;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,10 +78,7 @@ public class ExampleUnitTest {
 
     @Test
     public void dateTest() {
-        System.out.println(DateUtil.getMonthDays());
-        Calendar cal = Calendar.getInstance();
-        System.out.println(cal.get(Calendar.MONTH));
-        System.out.println(cal.getTime());
-        System.out.println(cal.getTimeInMillis());
+        System.out.println(DateUtil.getMonthRemainDays());
+        System.out.println(DateUtil.getWeekRemainDays());
     }
 }

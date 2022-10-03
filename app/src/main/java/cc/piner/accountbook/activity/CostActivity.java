@@ -94,8 +94,8 @@ public class CostActivity extends AppCompatActivity {
                     long costId = dao.insertCost(lMoney, time, title);
                     costMoney.setText("");
                     costTitle.setText("");
-                    new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
-                    new CostThread(handler, myDBHelper, CostThread.GET_HISTORICAL_RECORD).start();
+                    new CostThread(handler, myDBHelper, this, CostThread.GET_CONSUMPTION_TEXT).start();
+                    new CostThread(handler, myDBHelper, this, CostThread.GET_HISTORICAL_RECORD).start();
 
                     Cost cost = new Cost();
                     cost.setTime(time);
@@ -129,8 +129,8 @@ public class CostActivity extends AppCompatActivity {
                 Toast.makeText(CostActivity.this, "大懒虫还没有实现这个功能，请期待后续版本", Toast.LENGTH_SHORT).show();
             }
         });
-        new CostThread(handler, myDBHelper, CostThread.GET_CONSUMPTION_TEXT).start();
-        new CostThread(handler, myDBHelper, CostThread.GET_HISTORICAL_RECORD).start();
+        new CostThread(handler, myDBHelper, this, CostThread.GET_CONSUMPTION_TEXT).start();
+        new CostThread(handler, myDBHelper, this, CostThread.GET_HISTORICAL_RECORD).start();
     }
 
     private void sendWeb(Cost cost) {

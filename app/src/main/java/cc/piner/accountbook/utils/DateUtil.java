@@ -42,13 +42,26 @@ public class DateUtil {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        return days[month] - cal.get(Calendar.DAY_OF_MONTH) + 1;
+        return days[month];
+
     }
 
     public static int getMonthRemainDays() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int[] days = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        return days[month];
+        return days[month] - cal.get(Calendar.DAY_OF_MONTH) + 1;
+    }
+
+    public static int getWeekRemainDays() {
+        Calendar instance = Calendar.getInstance();
+        int week = instance.get(Calendar.DAY_OF_WEEK);
+        if (instance.getFirstDayOfWeek() == Calendar.SUNDAY) {
+            week = week - 1;
+            if (week == 0) {
+                week = 7;
+            }
+        }
+        return 8 - week;
     }
 }
