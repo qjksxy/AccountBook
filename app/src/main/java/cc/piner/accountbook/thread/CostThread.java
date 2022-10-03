@@ -45,6 +45,7 @@ public class CostThread extends Thread {
         }
     }
 
+    // 获取日、周、月消费金额
     private void getConsumption() {
         long today = DateUtil.getTodayMS();
         long week = DateUtil.getWeekStartMS();
@@ -76,13 +77,17 @@ public class CostThread extends Thread {
         str.append(String.format("本月消费：%7.2f元", monthSum / 100.0));
         HandlerUtil.sendMsg(handler, str.toString(), HandlerUtil.MAIN_TEXT_VIEW, 0, 0);
     }
+
+    //
     private void getHistoricalRecord() {
         long month = DateUtil.getMonthStartMS();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         MyDBDao myDBDao = new MyDBDao(dbHelper);
         StringBuilder stringBuilder = new StringBuilder();
+        // List<Cost> costs = myDBDao.queryCost(
+        //         MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, MyDBHelper.COST_TIME_COLUMN + " DESC LIMIT 50");
         List<Cost> costs = myDBDao.queryCost(
-                MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"" + month}, MyDBHelper.COST_TIME_COLUMN + " DESC");
+                MyDBHelper.COST_TIME_COLUMN + " > ?", new String[]{"0"}, MyDBHelper.COST_TIME_COLUMN + " DESC LIMIT 50");
         long monthSum = 0;
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         List<String> result = new ArrayList<>();

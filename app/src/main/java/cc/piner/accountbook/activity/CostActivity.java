@@ -1,5 +1,6 @@
 package cc.piner.accountbook.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -105,11 +106,13 @@ public class CostActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Intent intent = new Intent(this, SettingsActivity.class);
         titleBar = findViewById(R.id.titleBar);
         titleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(TitleBar titleBar) {
-                Toast.makeText(CostActivity.this, "大懒虫还没有实现这个功能，请期待后续版本", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
 
             @Override

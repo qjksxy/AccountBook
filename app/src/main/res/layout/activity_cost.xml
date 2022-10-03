@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:typeface="monospace"
-                android:text="本月无消费记录"
+                android:text="@string/history_text"
                 android:textSize="16sp" />
 
         </ScrollView>
