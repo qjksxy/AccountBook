@@ -98,13 +98,13 @@ public class CostThread extends Thread {
             monthSum += cost.getCost();
         }
 
-        // 获取当日消费额度  当日消费额度 = min(周消费额度/本周剩余天数, 月消费额度/本月剩余天数)
+        // 获取当日消费额度  当日消费额度 = min(周消费额度余额/本周剩余天数, 月消费额度余额/本月剩余天数)
         long dayTarget = -1;
         if (hasWeekTarget) {
-            dayTarget = weekTarget * 100 / DateUtil.getWeekRemainDays();
+            dayTarget = (weekTarget * 100 - weekSum + todaySum) / DateUtil.getWeekRemainDays();
         }
         if (hasMonthTarget) {
-            long tempDayTarget = monthTarget * 100 / DateUtil.getMonthRemainDays();
+            long tempDayTarget = (monthTarget * 100 - monthSum + todaySum) / DateUtil.getMonthRemainDays();
             if (tempDayTarget < dayTarget || dayTarget < 0) {
                 dayTarget = tempDayTarget;
             }
